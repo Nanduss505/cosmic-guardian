@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy Guardian - Cosmic Defender Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-main">
+    <!-- OVERLAY STARFIELD BACKDROP -->
+    <div class="bg-overlay"></div>
+    <div class="nebula-glow"></div>
+    <div id="starfield"></div>
+
+    <!-- ========================= -->
+    <!-- MENU UTAMA -->
+    <!-- ========================= -->
+    <div id="mainMenu" class="screen">
+        <div class="menu-container-modern">
+            <!-- Logo area at the top -->
+            <div class="menu-header">
+                <img src="assets/images/ui/logo.png" class="logo" alt="Galaxy Guardian" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 400 100\'><text x=\'50%\' y=\'60%\' font-family=\'Orbitron\' font-weight=\'900\' font-size=\'36\' fill=\'%2300ffff\' text-anchor=\'middle\' filter=\'drop-shadow(0 0 12px %2300ffff)\' letter-spacing=\'2\'>GALAXY GUARDIAN</text></svg>'">
+                <p class="subtitle">PERTAHANKAN GALAXY • HANCURKAN PENJAJAH</p>
+            </div>
+
+            <!-- Central Elegant Navigation Console -->
+            <div class="elegant-menu-panel">
+                <!-- Glowing corner elements for futuristic interface -->
+                <div class="cyber-corner top-left"></div>
+                <div class="cyber-corner top-right"></div>
+                <div class="cyber-corner bottom-left"></div>
+                <div class="cyber-corner bottom-right"></div>
+
+                <button id="startMenuBtn" class="elegant-menu-btn">MULAI MISI</button>
+                <button id="howToPlayBtn" class="elegant-menu-btn">CARA BERMAIN</button>
+                <button id="leaderboardMenuBtn" class="elegant-menu-btn">PAPAN SKOR</button>
+                <button id="settingsMenuBtn" class="elegant-menu-btn">PENGATURAN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- PEMILIHAN PESAWAT -->
+    <!-- ========================= -->
+    <div id="modeScreen" class="screen hidden">
+        <div class="panel mode-panel">
+            <h2>PILIH PESAWAT TEMPUR</h2>
+            <p class="pilot-subtitle">Pilih pesawat tempur taktis Anda untuk misi ini.</p>
+            
+            <div class="modern-selector-layout">
+                <!-- Left side: Plane Cards List -->
+                <div class="plane-cards-list">
+                    <div class="plane-card-modern active" data-plane-index="0" style="--plane-color: #00ffff;">
+                        <span class="card-number">01</span>
+                        <img src="assets/images/player/pesawat_1.png" alt="Garuda Striker">
+                        <div class="card-info">
+                            <h4>Garuda Striker</h4>
+                            <span class="card-tag" style="color: #00ffff;">STANDAR</span>
+                        </div>
+                    </div>
+                    <div class="plane-card-modern" data-plane-index="1" style="--plane-color: #ffd700;">
+                        <span class="card-number">02</span>
+                        <img src="assets/images/player/pesawat_2.png" alt="Kencana Defender">
+                        <div class="card-info">
+                            <h4>Kencana Defender</h4>
+                            <span class="card-tag" style="color: #ffd700;">PERTAHANAN</span>
+                        </div>
+                    </div>
+                    <div class="plane-card-modern" data-plane-index="2" style="--plane-color: #a855f7;">
+                        <span class="card-number">03</span>
+                        <img src="assets/images/player/pesawat_3.png" alt="Cendrawasih Interceptor">
+                        <div class="card-info">
+                            <h4>Cendrawasih Interceptor</h4>
+                            <span class="card-tag" style="color: #a855f7;">KECEPATAN</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right side: Selected Plane Details -->
+                <div class="plane-details-panel">
+                    <div class="plane-preview-area">
+                        <button id="prevPlaneBtn" class="modern-arrow-btn">&lt;</button>
+                        <div class="hologram-pedestal">
+                            <div class="pedestal-ring"></div>
+                            <div class="pedestal-beam"></div>
+                            <div class="hologram-scanline"></div>
+                            <img id="carouselPlaneImg" src="assets/images/player/pesawat_1.png" alt="Plane Preview" class="plane-carousel-img">
+                        </div>
+                        <button id="nextPlaneBtn" class="modern-arrow-btn">&gt;</button>
+                    </div>
+                    
+                    <div class="plane-details-info">
+                        <h3 id="carouselPlaneName">Garuda Striker</h3>
+                        <p id="carouselPlaneDesc">Pesawat serang standar yang lincah dan seimbang.</p>
+                        <div id="carouselPlaneStat" class="plane-stat">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-buttons" style="display: flex; flex-direction: row; gap: 20px; justify-content: center; margin-top: 25px;">
+                <button id="confirmPlaneBtn" style="width: 260px;">KONFIRMASI PILIHAN</button>
+                <button id="modeBackBtn" class="secondary-btn" style="width: 180px; margin-top: 0;">KEMBALI</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- REGISTRASI PILOT -->
+    <!-- ========================= -->
+    <div id="usernameScreen" class="screen hidden">
+        <div class="panel username-panel">
+            <h2 id="regTitle">REGISTRASI PILOT</h2>
+            <div class="pilot-profile-layout">
+                <!-- Left side: Avatar Frame -->
+                <div class="pilot-avatar-frame">
+                    <img id="pilotIconImg" src="assets/images/player/pesawat_1.png" alt="Selected Plane" class="pilot-avatar-img">
+                    <div class="avatar-scanner"></div>
+                </div>
+                <!-- Right side: Profile Input fields -->
+                <div class="pilot-input-area">
+                    <div class="input-field-container">
+                        <span class="input-label">CALLSIGN PILOT (NAMA PANGGILAN)</span>
+                        <input type="text" id="usernameInput" maxlength="12" placeholder="MASUKKAN IDENTITAS" value="">
+                        <div class="char-counter">0 / 12 Karakter Maksimal</div>
+                    </div>
+                    <div id="regPlaneName">Garuda Striker</div>
+                    <p class="pilot-subtitle" id="regSubtitle">Identifikasi disetujui. Silakan konfirmasi callsign Anda untuk memulai penerbangan.</p>
+                </div>
+            </div>
+            <div class="menu-buttons" style="display: flex; flex-direction: row; gap: 20px; justify-content: center; width: 100%; margin-top: 15px;">
+                <button id="savePlayerBtn" style="width: 250px;">KONFIRMASI IDENTITAS</button>
+                <button id="regBackBtn" class="secondary-btn" style="width: 140px; margin-top: 0;">KEMBALI</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- PEMILIHAN STAGE (TIDAK DIGUNAKAN LAGI TAPI TETAP DI SINI UNTUK BACKUP) -->
+    <!-- ========================= -->
+    <div id="planetScreen" class="screen hidden">
+        <div class="panel planet-panel">
+            <h2>PILIH SEKTOR MISI</h2>
+            <p class="panel-subtitle">Pilih sektor angkasa untuk melakukan peluncuran.</p>
+            
+            <div class="planet-list">
+                <div class="planet-card active" data-stage="1">
+                    <div class="planet-sprite green-glow">🟢</div>
+                    <div class="planet-info">
+                        <h3>Tahap 1: Siantanarus</h3>
+                        <p class="planet-desc">Sektor pusat industri berat dan pertahanan awal perbatasan Siantan.</p>
+                    </div>
+                </div>
+                <div class="planet-card" data-stage="2">
+                    <div class="planet-sprite yellow-glow">🪐</div>
+                    <div class="planet-info">
+                        <h3>Tahap 2: Mukhsinus</h3>
+                        <p class="planet-desc">Wilayah lintasan kosmis sabuk asteroid berkecepatan tinggi.</p>
+                    </div>
+                </div>
+                <div class="planet-card" data-stage="3">
+                    <div class="planet-sprite red-glow">🔴</div>
+                    <div class="planet-info">
+                        <h3>Tahap 3: Rengasinus</h3>
+                        <p class="planet-desc">Pusat anomali lubang hitam sekaligus arena Ultimate Boss.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="planet-actions">
+                <button id="launchMissionBtn">LUNCURKAN KAMPANYE</button>
+                <button id="planetBackBtn" class="secondary-btn">BATAL</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="instructionScreen" class="screen hidden">
+        <div class="panel instruction-panel">
+            <h2>❕ PENGARAHAN MISI & KONTROL ❕</h2>
+            
+            <div class="briefing-container-modern">
+                <!-- Left: Instructions Lists -->
+                <div class="briefing-info-area">
+                    <!-- Section: Controls -->
+                    <div class="briefing-card">
+                        <h3>KONTROL PESAWAT</h3>
+                        <div class="info-row ctrl-row-keyboard">
+                            <span class="info-badge">KEYBOARD</span>
+                            <span class="info-text"><b>WASD</b> / <b>PANAH</b> untuk bergerak, <b>SPASI</b> untuk menembak laser.</span>
+                        </div>
+                        <div class="info-row ctrl-row-mouse">
+                            <span class="info-badge">MOUSE / SENTUH</span>
+                            <span class="info-text">Kemudi taktis mengikuti kursor secara instan (tembakan otomatis).</span>
+                        </div>
+                        <div class="info-row ctrl-row-gamepad">
+                            <span class="info-badge">GAMEPAD</span>
+                            <span class="info-text"><b>Analog Kiri</b> untuk kemudi, tombol <b>X</b> (A) untuk menembak, dan <b>Start</b> untuk jeda.</span>
+                        </div>
+                        <div class="info-row" style="color: #00ffff; font-size: 11px; margin-top: 10px; font-weight: 700; letter-spacing: 1px;">
+                            ⚠️ CATATAN: SENJATA BARU AKTIF SETELAH MUSUH SELESAI BERFORMASI.
+                        </div>
+                    </div>
+
+                    <!-- Section: Powerups -->
+                    <div class="briefing-card">
+                        <h3>ITEM PENDUKUNG (POWER-UP)</h3>
+                        <div class="powerup-grid">
+                            <div class="powerup-item">
+                                <span class="powerup-icon">🛡️</span>
+                                <div class="powerup-desc">
+                                    <strong>PERISAI KOSMIS</strong>
+                                    <span>Kebal dari tabrakan & tembakan (Durasi 7 detik).</span>
+                                </div>
+                            </div>
+                            <div class="powerup-item">
+                                <span class="powerup-icon">❤️</span>
+                                <div class="powerup-desc">
+                                    <strong>KIT MEDIS</strong>
+                                    <span>Memulihkan poin kesehatan lambung kapal (HP).</span>
+                                </div>
+                            </div>
+                            <div class="powerup-item">
+                                <span class="powerup-icon">⚡</span>
+                                <div class="powerup-desc">
+                                    <strong>UPGRADE SENJATA</strong>
+                                    <span>Tembakan bertambah (Maks 3 peluru, durasi 5 detik).</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Control Preview Showcase -->
+                <div class="briefing-preview-area">
+                    <div class="preview-monitor-card">
+                        <span class="monitor-title">SIMULATOR FLIGHT DECK</span>
+                        <div class="preview-clip-box">
+                            <canvas id="previewCanvas" width="180" height="180"></canvas>
+                        </div>
+                        <div class="preview-monitor-footer">
+                            <span class="pulse-dot"></span>
+                            <span class="preview-note">AUTOPILOT KEMUDI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="instructionBtn" style="width: 220px; margin-top: 10px;">KEMBALI KE MENU</button>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- PENGATURAN -->
+    <!-- ========================= -->
+    <div id="settingsScreen" class="screen hidden">
+        <div class="panel settings-panel">
+            <h2>⚙️ PENGATURAN SISTEM</h2>
+            <p class="settings-subtitle">Penyesuaian Audio & Kemudi Penerbangan</p>
+            
+            <div class="settings-container-modern">
+                <!-- Audio Config Card -->
+                <div class="settings-card">
+                    <h3>PENGATURAN SUARA</h3>
+                    <div class="setting-group">
+                        <label for="musicVolSlider">Volume Musik</label>
+                        <div class="slider-row">
+                            <input type="range" id="musicVolSlider" min="0" max="1" step="0.1" value="0.5">
+                            <span id="musicVolVal" class="vol-value-lbl">50%</span>
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="sfxVolSlider">Efek Suara (SFX)</label>
+                        <div class="slider-row">
+                            <input type="range" id="sfxVolSlider" min="0" max="1" step="0.1" value="0.5">
+                            <span id="sfxVolVal" class="vol-value-lbl">50%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Config Card -->
+                <div class="settings-card">
+                    <h3>METODE KONTROL</h3>
+                    <div class="setting-group" style="width: 100%;">
+                        <div class="input-mode-selector">
+                            <button class="mode-btn active" data-mode="WASD">WASD</button>
+                            <button class="mode-btn" data-mode="Arrow">Panah</button>
+                            <button class="mode-btn" data-mode="Mouse">Mouse</button>
+                            <button class="mode-btn" data-mode="Gamepad">Gamepad</button>
+                        </div>
+                    </div>
+
+                    <div class="setting-group" style="align-items: center; width: 100%; margin-bottom: 0;">
+                        <span class="preview-badge-label">BADGE AKTIF</span>
+                        <div id="controlBadge" class="modern-control-badge">[ WASD ]</div>
+                    </div>
+                </div>
+
+                <!-- Performance Config Card -->
+                <div class="settings-card">
+                    <h3>KUALITAS GRAFIK</h3>
+                    <div class="setting-group" style="width: 100%;">
+                        <div class="input-mode-selector">
+                            <button class="mode-btn graphics-btn" data-graphics="high">EFEK PENUH</button>
+                            <button class="mode-btn graphics-btn" data-graphics="low">HEMAT BATERAI</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="settingsBackBtn" style="width: 220px; margin-top: 15px;">SIMPAN PERUBAHAN</button>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- PAPAN SKOR -->
+    <!-- ========================= -->
+    <div id="leaderboardScreen" class="screen hidden">
+        <div class="panel leaderboard-panel">
+            <h2 class="leaderboard-title">♛ PAPAN PERINGKAT ♛</h2>
+            <p class="leaderboard-subtitle">Rekor Penjaga Planet Terbaik</p>
+            <div class="leaderboard-table-header">
+                <span>PILOT / IDENTITAS</span>
+                <span>SKOR TERBAIK</span>
+            </div>
+            <ol id="leaderboardList"></ol>
+            <button id="leaderboardBackBtn" style="width: 180px; margin-top: 10px;">KEMBALI</button>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- TAMPILAN GAME PLAY -->
+    <!-- ========================= -->
+    <div id="gameContainer" class="hidden">
+        <div class="canvas-container">
+            <canvas id="gameCanvas"></canvas>
+        </div>
+
+        <!-- BOTTOM HUD -->
+        <div id="bottomHUD">
+            <!-- Left side: HP Integrity Bar -->
+            <div class="hud-meter-wrapper" id="p1HPWrapper" style="margin: 0; min-width: 250px;">
+                <span class="hud-lbl-sm">Daya Tahan (HP)</span>
+                <div class="progress-bar-bg hp-bar-bg">
+                    <div id="hpProgress" class="progress-bar-fill hp-fill" style="width: 100%;"></div>
+                </div>
+            </div>
+
+            <div class="hud-meter-wrapper hidden" id="p2HPWrapper" style="margin: 0; min-width: 250px;">
+                <span class="hud-lbl-sm">HP PEMAIN 2</span>
+                <div class="progress-bar-bg hp-bar-bg">
+                    <div id="hpProgressP2" class="progress-bar-fill hp-fill" style="width: 100%; filter: hue-rotate(120deg);"></div>
+                </div>
+            </div>
+
+            <!-- Right side: Pilot, Skor, Tahap -->
+            <div id="bottomInfoHUD" style="display: flex; gap: 25px; align-items: center;">
+                <div class="hud-item-wrapper" style="margin: 0;">
+                    <span class="hud-lbl">PILOT:</span>
+                    <span id="hudPilotName" class="hud-val">ROOKIE</span>
+                </div>
+                <div class="hud-item-wrapper" style="margin: 0;">
+                    <span class="hud-lbl">SKOR:</span>
+                    <span id="score" class="hud-val">0</span>
+                </div>
+                <div class="hud-item-wrapper" style="margin: 0;">
+                    <span class="hud-lbl">TAHAP:</span>
+                    <span id="level" class="hud-val">Tahap 1</span>
+                </div>
+            </div>
+
+
+
+            <div id="pauseBtn">JEDA</div>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- GAME OVER PANEL -->
+    <!-- ========================= -->
+    <div id="gameOverPanel" class="screen hidden">
+        <div class="panel gameover-panel modern-result-panel">
+            <div class="result-header">
+                <div class="result-icon-frame red-theme">
+                    <span class="result-icon-emoji">💀</span>
+                </div>
+                <h1 class="danger">MISI GAGAL</h1>
+                <p class="gameover-message">Perisai Anda runtuh dan integritas pesawat hancur.<br>Pertahanan sektor telah ditembus.</p>
+            </div>
+            
+            <!-- Modern Stats Card -->
+            <div class="modern-stats-card red-theme" id="gameOverStatsCard">
+                <!-- Will be populated dynamically in game.js -->
+            </div>
+            
+            <div class="gameover-buttons">
+                <button id="restartBtn">COBA LAGI</button>
+                <button id="menuBtn" class="secondary-btn">KEMBALI KE MENU</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- VICTORY PANEL -->
+    <!-- ========================= -->
+    <div id="victoryPanel" class="screen hidden">
+        <div class="panel victory-panel modern-result-panel">
+            <div class="result-header">
+                <div class="result-icon-frame cyan-theme">
+                    <span class="result-icon-emoji">👑</span>
+                </div>
+                <h1 class="victory-title">MISI SELESAI</h1>
+                <p class="victory-message">Kampanye luar biasa, Komandan!<br>Ancaman musuh telah dibersihkan dari sektor ini.</p>
+            </div>
+            
+            <!-- Modern Stats Card -->
+            <div class="modern-stats-card cyan-theme" id="victoryStatsCard">
+                <!-- Will be populated dynamically in game.js -->
+            </div>
+            
+            <div class="gameover-buttons">
+                <button id="victoryRestartBtn">MAIN LAGI</button>
+                <button id="victoryMenuBtn" class="secondary-btn">KEMBALI KE PANGKALAN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================= -->
+    <!-- CUSTOM ALERT MODAL OVERLAY -->
+    <!-- ========================= -->
+    <div id="customAlertModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.75); z-index: 9999; backdrop-filter: blur(8px); transition: all 0.3s ease;">
+        <div class="panel alert-panel" style="width: 450px; max-width: 90%; border: 1px solid #ff0055; box-shadow: 0 0 40px rgba(255, 0, 85, 0.3), inset 0 0 20px rgba(255, 0, 85, 0.15); animation: popup 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <div class="result-header">
+                <div class="result-icon-frame red-theme" style="margin-bottom: 20px; display: inline-flex; justify-content: center; align-items: center; width: 70px; height: 70px; border-radius: 50%; border: 2px solid #ff0055; box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);">
+                    <span class="result-icon-emoji" style="font-size: 36px;">⚠️</span>
+                </div>
+                <h2 style="color: #ff0055; text-shadow: 0 0 10px rgba(255, 0, 85, 0.6); margin-bottom: 15px; font-family: 'Orbitron', sans-serif;">PERINGATAN SISTEM</h2>
+                <p id="customAlertMessage" class="panel-subtitle" style="margin-bottom: 30px; font-size: 15px; color: #e2e8f0; line-height: 1.6; text-align: center;">Pesan Peringatan</p>
+            </div>
+            <button id="customAlertCloseBtn" class="elegant-menu-btn" style="width: 100%; border: 1px solid #ff0055; color: #ff0055; text-shadow: 0 0 5px rgba(255, 0, 85, 0.5); box-shadow: inset 0 0 10px rgba(255, 0, 85, 0.1); background: transparent; padding: 12px; border-radius: 8px; font-family: 'Orbitron', sans-serif; font-weight: bold; cursor: pointer; transition: all 0.2s;">KEMBALI</button>
+        </div>
+    </div>
+
+    <!-- SCRIPTS LOADING SEQUENTIALLY -->
+    <script src="js/utils.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/leaderboard.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/bullet.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/item.js"></script>
+    <script src="js/game.js"></script>
+</body>
+
+</html>
